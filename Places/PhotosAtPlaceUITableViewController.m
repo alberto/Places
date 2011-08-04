@@ -1,34 +1,7 @@
-//
-//  PlacesUITableViewController.m
-//  Places
-//
-//  Created by moviles on 04/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
-#import "PlacesUITableViewController.h"
-#import "FlickrFetcher.h"
 #import "PhotosAtPlaceUITableViewController.h"
 
-@interface PlacesUITableViewController()
-@property (nonatomic, retain) NSArray *places;
-@end
 
-@implementation PlacesUITableViewController
-
-@synthesize places;
-
-- (NSArray *) places
-{
-    if (!places) {
-        places = [[FlickrFetcher topPlaces]
-                  sortedArrayUsingDescriptors: [NSArray arrayWithObject:
-                                                [NSSortDescriptor sortDescriptorWithKey:
-                                                 @"_content" ascending:YES]]];
-        [places retain];
-    }
-    return places;
-}
+@implementation PhotosAtPlaceUITableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,7 +14,6 @@
 
 - (void)dealloc
 {
-    [places release];
     [super dealloc];
 }
 
@@ -58,7 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  //  NSLog(@"%@", self.places);
+
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+ 
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -96,24 +73,28 @@
 
 #pragma mark - Table view data source
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.places.count;
+    // Return the number of rows in the section.
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"PlacesUITableViewController";
+    static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    NSDictionary *place = [self.places objectAtIndex:indexPath.row];
-    cell.textLabel.text = [place objectForKey:@"_content"];
-    
+    // Configure the cell...
+    cell.textLabel.text = @"Titulo";
     return cell;
 }
 
@@ -130,10 +111,6 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
-    NSLog(@"Seleccionada celda %i", indexPath.row);
-    PhotosAtPlaceUITableViewController *photosAtPlaceVC = [[PhotosAtPlaceUITableViewController alloc] init];
-    
-    [self.navigationController pushViewController:photosAtPlaceVC animated:YES];
 }
 
 @end
