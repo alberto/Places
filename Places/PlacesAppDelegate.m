@@ -16,15 +16,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UITabBarController *tbc = [[UITabBarController alloc] init];
+    //UITabBarController *tbc = [[UITabBarController alloc] init];
     PlacesUITableViewController *favs = [[PlacesUITableViewController alloc] init];
-//    UINavigationBar *navBar = [[UINavigationBar alloc] init];
-  //  favs.title = @"Top Rated";
+    UINavigationController *nav = [[UINavigationController alloc] init];
     favs.tabBarItem =  [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated
                                                                                 tag:0];
-//    [navBar addSubview:favs.view];
-    tbc.viewControllers = [NSArray arrayWithObjects: favs, nil];
-    [self.window addSubview:tbc.view];
+
+    [nav pushViewController:favs animated:NO];
+    //tbc.viewControllers = [NSArray arrayWithObjects: favs, nil];
+    [self.window addSubview:nav.view];
     [favs release];
     //[tbc release];
     [self.window makeKeyAndVisible];
@@ -59,8 +59,6 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    NSArray * places = [FlickrFetcher topPlaces];
-    NSLog(@"%@", places);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -74,6 +72,7 @@
 
 - (void)dealloc
 {
+    
     [_window release];
     [super dealloc];
 }
