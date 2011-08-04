@@ -49,6 +49,7 @@
 
 - (void)viewDidLoad
 {
+    self.title = @"Places";
     [super viewDidLoad];
 }
 

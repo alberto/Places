@@ -26,7 +26,6 @@
     //tbc.viewControllers = [NSArray arrayWithObjects: favs, nil];
     [self.window addSubview:nav.view];
     [favs release];
-    //[tbc release];
     [self.window makeKeyAndVisible];
     return YES;
 }
