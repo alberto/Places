@@ -57,9 +57,22 @@
     return [[self photos] count];
 }
 
+- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
+    return [[self photos] objectAtIndex:indexPath.row];
+}
+
+- (NSString *) titleForPhotoAtIndex: (NSIndexPath *)indexPath
+{
+    id photo = [self photoAtIndex:indexPath];
+    NSString * title = [photo objectForKey: @"title"];
+    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
+    return title ? title : description ? description : @"Unknown";
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"PhotosAtPlaceUITableViewController";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -70,14 +83,14 @@
     id photo = [[self photos] objectAtIndex:indexPath.row];
     NSString * title = [photo objectForKey: @"title"];
     NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
-    cell.textLabel.text = title ? title : description ? description : @"Unknown";
+    cell.textLabel.text = [self titleForPhotoAtIndex:indexPath];
     cell.detailTextLabel.text = title ? description : nil;
     return cell;
 }
 
-- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
-    return [[self photos] objectAtIndex:indexPath.row];
-}
+
+
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,6 +104,7 @@
     [detailView addSubview:imageView];
     [imageView release];
     vc.view = detailView;
+    vc.title = [self titleForPhotoAtIndex:indexPath];
     [detailView release];
     [self.navigationController pushViewController:vc animated:YES];
     [vc release];

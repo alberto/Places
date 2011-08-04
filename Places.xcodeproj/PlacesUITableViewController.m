@@ -74,6 +74,17 @@
     return self.places.count;
 }
 
+-(NSDictionary *) placeAtIndex:(NSIndexPath *) indexPath
+{
+    return [self.places objectAtIndex:indexPath.row];
+}
+
+-(NSString *) titleForPlace:(NSDictionary *)place
+{
+    NSString * content = [place objectForKey:@"_content"];
+    return [[content componentsSeparatedByString:@","] objectAtIndex:0];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PlacesUITableViewController";
@@ -84,8 +95,8 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    NSDictionary *place = [self.places objectAtIndex:indexPath.row];
-    cell.textLabel.text = [place objectForKey:@"_content"];
+    NSDictionary *place = [self placeAtIndex:indexPath];
+    cell.textLabel.text = [self titleForPlace:place];
     
     return cell;
 }
@@ -105,7 +116,9 @@
      */
     NSLog(@"Seleccionada celda %i", indexPath.row);
     PhotosAtPlaceUITableViewController *photosAtPlaceVC = [[PhotosAtPlaceUITableViewController alloc] init];
-    photosAtPlaceVC.place_id = [[self.places objectAtIndex:indexPath.row] objectForKey:@"place_id"];
+    id place = [self.places objectAtIndex:indexPath.row];
+    photosAtPlaceVC.place_id = [place objectForKey:@"place_id"];
+    photosAtPlaceVC.title = [self titleForPlace:place];
     [self.navigationController pushViewController:photosAtPlaceVC animated:YES];
     [photosAtPlaceVC release];
 }
