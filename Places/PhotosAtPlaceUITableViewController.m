@@ -70,25 +70,30 @@
     id photo = [[self photos] objectAtIndex:indexPath.row];
     NSString * title = [photo objectForKey: @"title"];
     NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
-    NSLog(@"%@ desc: %@", title, description);
     cell.textLabel.text = title ? title : description ? description : @"Unknown";
     cell.detailTextLabel.text = title ? description : nil;
     return cell;
 }
 
-
+- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
+    return [[self photos] objectAtIndex:indexPath.row];
+}
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    
+    UIViewController *vc = [[UIViewController alloc] init ];
+    UIScrollView *detailView = [[UIScrollView alloc] init];
+    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:[self photoAtIndex:indexPath]format:FlickrFetcherPhotoFormatLarge]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    [detailView addSubview:imageView];
+    [imageView release];
+    vc.view = detailView;
+    [detailView release];
+    [self.navigationController pushViewController:vc animated:YES];
+    [vc release];
 }
 
 @end
