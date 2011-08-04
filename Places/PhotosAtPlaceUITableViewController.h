@@ -10,7 +10,9 @@
 
 
 @interface PhotosAtPlaceUITableViewController : UITableViewController {
-    
+    NSString *place_id;
 }
+
+@property (copy) NSString *place_id;
 
 @end

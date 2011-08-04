@@ -1,11 +1,3 @@
-//
-//  PlacesUITableViewController.m
-//  Places
-//
-//  Created by moviles on 04/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
 #import "PlacesUITableViewController.h"
 #import "FlickrFetcher.h"
 #import "PhotosAtPlaceUITableViewController.h"
@@ -58,7 +50,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-  //  NSLog(@"%@", self.places);
 }
 
 - (void)viewDidUnload
@@ -68,25 +59,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -132,8 +104,9 @@
      */
     NSLog(@"Seleccionada celda %i", indexPath.row);
     PhotosAtPlaceUITableViewController *photosAtPlaceVC = [[PhotosAtPlaceUITableViewController alloc] init];
-    
+    photosAtPlaceVC.place_id = [[self.places objectAtIndex:indexPath.row] objectForKey:@"place_id"];
     [self.navigationController pushViewController:photosAtPlaceVC animated:YES];
+    [photosAtPlaceVC release];
 }
 
 @end

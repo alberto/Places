@@ -1,7 +1,13 @@
 #import "PhotosAtPlaceUITableViewController.h"
+#import "FlickrFetcher.h"
 
+@interface  PhotosAtPlaceUITableViewController()
+@property (nonatomic, retain) NSArray *photos;
+@end
 
 @implementation PhotosAtPlaceUITableViewController
+
+@synthesize place_id, photos;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -17,12 +23,12 @@
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+-(NSArray *) photos {
+    if (!photos) {
+        photos = [FlickrFetcher photosAtPlace:[self place_id]];
+    }
+    [photos retain];
+    return photos;
 }
 
 #pragma mark - View lifecycle
@@ -38,33 +44,6 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -73,15 +52,9 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 0;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+    return [[self photos] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,11 +63,16 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
-    cell.textLabel.text = @"Titulo";
+    id photo = [[self photos] objectAtIndex:indexPath.row];
+    NSString * title = [photo objectForKey: @"title"];
+    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
+    NSLog(@"%@ desc: %@", title, description);
+    cell.textLabel.text = title ? title : description ? description : @"Unknown";
+    cell.detailTextLabel.text = title ? description : nil;
     return cell;
 }
 
