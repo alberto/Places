@@ -1,0 +1,19 @@
+#Mac OSX Finder
+.DS_Store
+
+# automatic backup files
+*~.nib
+*.swp
+*~
+
+# build products
+build/
+
+# XCode (and ancestors) per-user config (very noisy, and not relevant)
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+xcuserdata
