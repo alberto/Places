@@ -16,16 +16,25 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //UITabBarController *tbc = [[UITabBarController alloc] init];
+    UITabBarController *tbc = [[UITabBarController alloc] init];
     PlacesUITableViewController *favs = [[PlacesUITableViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] init];
-    favs.tabBarItem =  [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated
-                                                                                tag:0];
-
+    favs.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated
+                                                                   tag:0];
+    
     [nav pushViewController:favs animated:NO];
-    //tbc.viewControllers = [NSArray arrayWithObjects: favs, nil];
-    [self.window addSubview:nav.view];
+    
+    UINavigationController *recentNav = [[UINavigationController alloc] init];
+    UITableViewController *recent = [[UITableViewController alloc] init];
+    recent.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostRecent
+                                                                 tag:0];
+    [recentNav pushViewController:recent animated:NO];
+    tbc.viewControllers = [NSArray arrayWithObjects: nav, recentNav, nil];
+    [self.window addSubview:tbc.view];
+    
     [favs release];
+    [nav release];
+    //[tbc release];
     [self.window makeKeyAndVisible];
     return YES;
 }
