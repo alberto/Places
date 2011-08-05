@@ -25,7 +25,9 @@
 
 -(NSArray *) photos {
     if (!photos) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         photos = [FlickrFetcher photosAtPlace:[self place_id]];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     [photos retain];
     return photos;

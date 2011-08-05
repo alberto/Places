@@ -13,10 +13,12 @@
 - (NSArray *) places
 {
     if (!places) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         places = [[FlickrFetcher topPlaces]
                   sortedArrayUsingDescriptors: [NSArray arrayWithObject:
                                                 [NSSortDescriptor sortDescriptorWithKey:
                                                  @"_content" ascending:YES]]];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [places retain];
     }
     return places;
@@ -107,15 +109,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-    NSLog(@"Seleccionada celda %i", indexPath.row);
     PhotosAtPlaceUITableViewController *photosAtPlaceVC = [[PhotosAtPlaceUITableViewController alloc] init];
     id place = [self.places objectAtIndex:indexPath.row];
     photosAtPlaceVC.place_id = [place objectForKey:@"place_id"];
