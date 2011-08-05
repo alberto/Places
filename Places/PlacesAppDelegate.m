@@ -9,6 +9,8 @@
 #import "PlacesAppDelegate.h"
 #import "FlickrFetcher.h"
 #import "PlacesUITableViewController.h"
+#import "RecentUITableViewController.h"
+
 @implementation PlacesAppDelegate
 
 
@@ -16,6 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"recent"] ;
     UITabBarController *tbc = [[UITabBarController alloc] init];
     PlacesUITableViewController *favs = [[PlacesUITableViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] init];
@@ -25,13 +28,16 @@
     [nav pushViewController:favs animated:NO];
     
     UINavigationController *recentNav = [[UINavigationController alloc] init];
-    UITableViewController *recent = [[UITableViewController alloc] init];
+    RecentUITableViewController *recent = [[RecentUITableViewController alloc] init];
     recent.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostRecent
                                                                  tag:0];
+    
     [recentNav pushViewController:recent animated:NO];
     tbc.viewControllers = [NSArray arrayWithObjects: nav, recentNav, nil];
     [self.window addSubview:tbc.view];
     
+    [recent release];
+    [recentNav release];
     [favs release];
     [nav release];
     //[tbc release];

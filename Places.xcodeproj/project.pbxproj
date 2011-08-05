@@ -23,6 +23,7 @@
 		A141B69113EB015B00C6AE3F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A141B68A13EB015B00C6AE3F /* SBJsonWriter.m */; };
 		A141B69713EB185400C6AE3F /* PlacesUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */; };
 		A141B6A513EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */; };
+		A16401DD13EC228B0000D764 /* RecentUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A16401DC13EC228B0000D764 /* RecentUITableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,8 @@
 		A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlacesUITableViewController.m; path = Places.xcodeproj/PlacesUITableViewController.m; sourceTree = SOURCE_ROOT; };
 		A141B6A313EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosAtPlaceUITableViewController.h; sourceTree = "<group>"; };
 		A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosAtPlaceUITableViewController.m; sourceTree = "<group>"; };
+		A16401DB13EC228B0000D764 /* RecentUITableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentUITableViewController.h; sourceTree = "<group>"; };
+		A16401DC13EC228B0000D764 /* RecentUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentUITableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */,
 				A141B66F13EB010100C6AE3F /* PlacesAppDelegate.h */,
 				A141B67013EB010100C6AE3F /* PlacesAppDelegate.m */,
+				A16401DB13EC228B0000D764 /* RecentUITableViewController.h */,
+				A16401DC13EC228B0000D764 /* RecentUITableViewController.m */,
 				A141B67213EB010100C6AE3F /* MainWindow.xib */,
 				A141B66713EB010100C6AE3F /* Supporting Files */,
 			);
@@ -220,6 +225,7 @@
 				A141B69113EB015B00C6AE3F /* SBJsonWriter.m in Sources */,
 				A141B69713EB185400C6AE3F /* PlacesUITableViewController.m in Sources */,
 				A141B6A513EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m in Sources */,
+				A16401DD13EC228B0000D764 /* RecentUITableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +330,7 @@
 				A141B67913EB010100C6AE3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

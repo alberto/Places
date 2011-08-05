@@ -36,12 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.clearsSelectionOnViewWillAppear = NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -90,10 +85,15 @@
     
 }
 
-
-
-
 #pragma mark - Table view delegate
+
+- (void) addToRecentPhotos: (NSDictionary *) photo  {
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSArray* recentPhotos = [defaults objectForKey:@"recent"];
+    if(!recentPhotos) recentPhotos = [NSArray array];
+    recentPhotos = [recentPhotos arrayByAddingObject:photo];
+    [defaults setObject:recentPhotos forKey:@"recent"];    
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -102,7 +102,10 @@
     UIViewController *vc = [[UIViewController alloc] init ];
     CGRect frame = [[UIScreen mainScreen] applicationFrame];
     UIScrollView *detailView = [[UIScrollView alloc] initWithFrame:frame];
-    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:[self photoAtIndex:indexPath]format:FlickrFetcherPhotoFormatLarge]];
+    NSDictionary *photo = [self photoAtIndex:indexPath];
+    [self addToRecentPhotos: photo];
+
+    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:photo format:FlickrFetcherPhotoFormatLarge]];
 
     imageView = [[UIImageView alloc] initWithImage:image];
     [detailView addSubview:imageView];
