@@ -31,6 +31,7 @@
     RecentUITableViewController *recent = [[RecentUITableViewController alloc] init];
     recent.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMostRecent
                                                                  tag:0];
+    recent.title = @"Most recent";
     
     [recentNav pushViewController:recent animated:NO];
     tbc.viewControllers = [NSArray arrayWithObjects: nav, recentNav, nil];

@@ -1,12 +1,6 @@
-//
-//  RecentUITableViewController.m
-//  Places
-//
-//  Created by moviles on 05/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
 
 #import "RecentUITableViewController.h"
+#import "FlickrFetcher.h"
 
 @implementation RecentUITableViewController
 
@@ -49,7 +43,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView reloadData];
     self.clearsSelectionOnViewWillAppear = NO;
 }
 
@@ -91,19 +84,54 @@
     return cell;
 }
 
+- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
+    return [[self photos] objectAtIndex:indexPath.row];
+}
+
+- (NSString *) titleForPhotoAtIndex: (NSIndexPath *)indexPath
+{
+    id photo = [self photoAtIndex:indexPath];
+    NSString * title = [photo objectForKey: @"title"];
+    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
+    return title ? title : description ? description : @"Unknown";
+    
+}
+
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    
+    UIViewController *vc = [[UIViewController alloc] init ];
+    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+    UIScrollView *detailView = [[UIScrollView alloc] initWithFrame:frame];
+    NSDictionary *photo = [self photoAtIndex:indexPath];
+    
+    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:photo format:FlickrFetcherPhotoFormatLarge]];
+    
+    imageView = [[UIImageView alloc] initWithImage:image];
+    [detailView addSubview:imageView];
+    detailView.contentSize = imageView.bounds.size;
+    detailView.minimumZoomScale = 0.3;
+    detailView.maximumZoomScale = 3.0;
+    detailView.delegate = self;
+    
+    [detailView zoomToRect:[imageView bounds] animated:NO];
+    vc.view = detailView;
+    vc.title = [self titleForPhotoAtIndex:indexPath];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    [imageView release];
+    [detailView release];
+    [vc release];
 }
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+	return imageView;
+}
+
 
 @end

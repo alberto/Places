@@ -11,6 +11,7 @@
 
 @interface RecentUITableViewController : UITableViewController {
     NSArray *photos;
+    UIImageView *imageView;
 }
 
 @end
