@@ -46,8 +46,9 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait 
+            || interfaceOrientation == UIInterfaceOrientationLandscapeLeft
+            || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 #pragma mark - Table view data source
@@ -108,7 +109,10 @@
     detailView.contentSize = imageView.bounds.size;
     detailView.minimumZoomScale = 0.3;
     detailView.maximumZoomScale = 3.0;
+    detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     detailView.delegate = self;
+
     [detailView zoomToRect:[imageView bounds] animated:NO];
     vc.view = detailView;
     vc.title = [self titleForPhotoAtIndex:indexPath];
