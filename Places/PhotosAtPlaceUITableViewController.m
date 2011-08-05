@@ -109,8 +109,6 @@
     detailView.contentSize = imageView.bounds.size;
     detailView.minimumZoomScale = 0.3;
     detailView.maximumZoomScale = 3.0;
-    detailView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     detailView.delegate = self;
 
     [detailView zoomToRect:[imageView bounds] animated:NO];
