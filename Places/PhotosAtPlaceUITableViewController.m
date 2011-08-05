@@ -86,6 +86,7 @@
     cell.textLabel.text = [self titleForPhotoAtIndex:indexPath];
     cell.detailTextLabel.text = title ? description : nil;
     return cell;
+    
 }
 
 
@@ -98,16 +99,30 @@
     // Navigation logic may go here. Create and push another view controller.
     
     UIViewController *vc = [[UIViewController alloc] init ];
-    UIScrollView *detailView = [[UIScrollView alloc] init];
+    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+    UIScrollView *detailView = [[UIScrollView alloc] initWithFrame:frame];
     UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:[self photoAtIndex:indexPath]format:FlickrFetcherPhotoFormatLarge]];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+
+    imageView = [[UIImageView alloc] initWithImage:image];
     [detailView addSubview:imageView];
-    [imageView release];
+    detailView.contentSize = imageView.bounds.size;
+    detailView.minimumZoomScale = 0.3;
+    detailView.maximumZoomScale = 3.0;
+    detailView.delegate = self;
+    [detailView zoomToRect:[imageView bounds] animated:NO];
     vc.view = detailView;
     vc.title = [self titleForPhotoAtIndex:indexPath];
-    [detailView release];
     [self.navigationController pushViewController:vc animated:YES];
+
+    [imageView release];
+    [detailView release];
     [vc release];
+}
+
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+	return imageView;
 }
 
 @end

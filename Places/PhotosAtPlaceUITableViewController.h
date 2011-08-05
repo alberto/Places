@@ -11,6 +11,7 @@
 
 @interface PhotosAtPlaceUITableViewController : UITableViewController {
     NSString *place_id;
+    UIImageView *imageView;
 }
 
 @property (copy) NSString *place_id;
