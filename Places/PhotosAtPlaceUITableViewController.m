@@ -1,5 +1,7 @@
 #import "PhotosAtPlaceUITableViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoInfo.h"
+
 
 @interface  PhotosAtPlaceUITableViewController()
 @property (nonatomic, retain) NSArray *photos;
@@ -9,24 +11,10 @@
 
 @synthesize place, photos;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
-}
-
 -(NSArray *) photos {
     if (!photos) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        photos = [FlickrFetcher photosAtPlace:self.place.place_id];
+        photos = [PhotoInfo photosAtPlace:self.place];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     [photos retain];
@@ -56,17 +44,9 @@
     return [[self photos] count];
 }
 
-- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
-    return [[self photos] objectAtIndex:indexPath.row];
-}
-
-- (NSString *) titleForPhotoAtIndex: (NSIndexPath *)indexPath
-{
-    id photo = [self photoAtIndex:indexPath];
-    NSString * title = [photo objectForKey: @"title"];
-    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
-    return title ? title : description ? description : @"Unknown";
-    
+- (PhotoInfo *) photoAtIndex:(NSIndexPath *)indexPath {
+    PhotoInfo* photoInfo = [[PhotoInfo alloc] initWithDictionary:[[self photos] objectAtIndex:indexPath.row]];
+    return photoInfo;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,23 +58,21 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    // Configure the cell...
-    id photo = [[self photos] objectAtIndex:indexPath.row];
-    NSString * title = [photo objectForKey: @"title"];
-    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
-    cell.textLabel.text = [self titleForPhotoAtIndex:indexPath];
-    cell.detailTextLabel.text = title ? description : nil;
+    PhotoInfo* photo = [self photoAtIndex:indexPath];
+    cell.textLabel.text = photo.title;
+    cell.detailTextLabel.text = photo.description;
     return cell;
-    
 }
 
 #pragma mark - Table view delegate
 
-- (void) addToRecentPhotos: (NSDictionary *) photo  {
+- (void) addToRecentPhotos: (PhotoInfo *) photo  {
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     NSArray* recentPhotos = [defaults objectForKey:@"recent"];
     if(!recentPhotos) recentPhotos = [NSArray array];
-    recentPhotos = [recentPhotos arrayByAddingObject:photo];
+	
+    NSData *theData = [NSKeyedArchiver archivedDataWithRootObject:photo];
+    recentPhotos = [recentPhotos arrayByAddingObject:theData];
     [defaults setObject:recentPhotos forKey:@"recent"];    
 }
 
@@ -105,10 +83,10 @@
     UIViewController *vc = [[UIViewController alloc] init ];
     CGRect frame = [[UIScreen mainScreen] applicationFrame];
     UIScrollView *detailView = [[UIScrollView alloc] initWithFrame:frame];
-    NSDictionary *photo = [self photoAtIndex:indexPath];
+    PhotoInfo *photo = [self photoAtIndex:indexPath];
     [self addToRecentPhotos: photo];
 
-    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:photo format:FlickrFetcherPhotoFormatLarge]];
+    UIImage *image = photo.image;
 
     imageView = [[UIImageView alloc] initWithImage:image];
     [detailView addSubview:imageView];
@@ -119,7 +97,7 @@
 
     [detailView zoomToRect:[imageView bounds] animated:NO];
     vc.view = detailView;
-    vc.title = [self titleForPhotoAtIndex:indexPath];
+    vc.title = photo.title;
     [self.navigationController pushViewController:vc animated:YES];
 
     [imageView release];

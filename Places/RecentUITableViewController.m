@@ -1,6 +1,6 @@
-
 #import "RecentUITableViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoInfo.h"
 
 @implementation RecentUITableViewController
 
@@ -15,12 +15,14 @@
 
 - (NSArray*) photos
 {
-    //if(photos) [photos release];
-
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    photos = [defaults objectForKey:@"recent"];
+    NSArray *photosFromDefaults = [defaults objectForKey:@"recent"];
+    NSMutableArray *mutablePhotos = [NSMutableArray array];
+    for (NSData *data in photosFromDefaults) {
+        [mutablePhotos addObject: [NSKeyedUnarchiver unarchiveObjectWithData:data]];
+    }
+    photos = mutablePhotos;
     [self.view setNeedsDisplay];
-    
     return photos;
 }
 
@@ -79,22 +81,13 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    NSDictionary *photo = [[self photos] objectAtIndex:indexPath.row];
-    cell.textLabel.text = [photo objectForKey:@"title"];
+    PhotoInfo *photo = [[self photos] objectAtIndex:indexPath.row];
+    cell.textLabel.text = photo.title;
     return cell;
 }
 
-- (NSDictionary *) photoAtIndex:(NSIndexPath *)indexPath {
+- (PhotoInfo *) photoAtIndex:(NSIndexPath *)indexPath {
     return [[self photos] objectAtIndex:indexPath.row];
-}
-
-- (NSString *) titleForPhotoAtIndex: (NSIndexPath *)indexPath
-{
-    id photo = [self photoAtIndex:indexPath];
-    NSString * title = [photo objectForKey: @"title"];
-    NSString * description = [[photo objectForKey: @"description"]objectForKey:@"_content" ];
-    return title ? title : description ? description : @"Unknown";
-    
 }
 
 
@@ -107,9 +100,9 @@
     UIViewController *vc = [[UIViewController alloc] init ];
     CGRect frame = [[UIScreen mainScreen] applicationFrame];
     UIScrollView *detailView = [[UIScrollView alloc] initWithFrame:frame];
-    NSDictionary *photo = [self photoAtIndex:indexPath];
+    PhotoInfo *photo = [self photoAtIndex:indexPath];
     
-    UIImage *image = [UIImage imageWithData:[FlickrFetcher imageDataForPhotoWithFlickrInfo:photo format:FlickrFetcherPhotoFormatLarge]];
+    UIImage *image = photo.image;
     
     imageView = [[UIImageView alloc] initWithImage:image];
     [detailView addSubview:imageView];
@@ -120,7 +113,7 @@
     
     [detailView zoomToRect:[imageView bounds] animated:NO];
     vc.view = detailView;
-    vc.title = [self titleForPhotoAtIndex:indexPath];
+    vc.title = photo.title;
     [self.navigationController pushViewController:vc animated:YES];
     
     [imageView release];
