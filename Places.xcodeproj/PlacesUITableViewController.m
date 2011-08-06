@@ -39,13 +39,6 @@
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
 
 #pragma mark - View lifecycle
 
@@ -54,14 +47,6 @@
     self.title = @"Places";
     [super viewDidLoad];
 }
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -88,19 +73,28 @@
     return [[content componentsSeparatedByString:@","] objectAtIndex:0];
 }
 
+-(NSString *) descriptionForPlace:(NSDictionary *)place
+{
+    NSString * content = [place objectForKey:@"_content"];
+    
+    NSArray * components = [content componentsSeparatedByString:@", "];
+    return [[components subarrayWithRange:NSMakeRange(1, [components count] -1)] componentsJoinedByString:@", "];
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PlacesUITableViewController";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSDictionary *place = [self placeAtIndex:indexPath];
     cell.textLabel.text = [self titleForPlace:place];
-    
+    cell.detailTextLabel.text = [self descriptionForPlace:place];
     return cell;
 }
 
