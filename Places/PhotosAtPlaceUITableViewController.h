@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Place.h"
 
 @interface PhotosAtPlaceUITableViewController : UITableViewController {
-    NSString *place_id;
+    Place *place;
     UIImageView *imageView;
 }
 
-@property (copy) NSString *place_id;
+@property (retain) Place *place;
 
 @end

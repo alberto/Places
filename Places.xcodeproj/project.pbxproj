@@ -24,6 +24,7 @@
 		A141B69713EB185400C6AE3F /* PlacesUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */; };
 		A141B6A513EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */; };
 		A16401DD13EC228B0000D764 /* RecentUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A16401DC13EC228B0000D764 /* RecentUITableViewController.m */; };
+		A16401E113EDB6FE0000D764 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = A16401E013EDB6FE0000D764 /* Place.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,8 @@
 		A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosAtPlaceUITableViewController.m; sourceTree = "<group>"; };
 		A16401DB13EC228B0000D764 /* RecentUITableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentUITableViewController.h; sourceTree = "<group>"; };
 		A16401DC13EC228B0000D764 /* RecentUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentUITableViewController.m; sourceTree = "<group>"; };
+		A16401DF13EDB6FD0000D764 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		A16401E013EDB6FE0000D764 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,14 +109,11 @@
 		A141B66613EB010100C6AE3F /* Places */ = {
 			isa = PBXGroup;
 			children = (
-				A141B6A313EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.h */,
-				A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */,
-				A141B69513EB185400C6AE3F /* PlacesUITableViewController.h */,
-				A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */,
+				A16401E513EDC4400000D764 /* Recent */,
+				A16401E413EDC42B0000D764 /* Photos */,
+				A16401E313EDC3C10000D764 /* Places */,
 				A141B66F13EB010100C6AE3F /* PlacesAppDelegate.h */,
 				A141B67013EB010100C6AE3F /* PlacesAppDelegate.m */,
-				A16401DB13EC228B0000D764 /* RecentUITableViewController.h */,
-				A16401DC13EC228B0000D764 /* RecentUITableViewController.m */,
 				A141B67213EB010100C6AE3F /* MainWindow.xib */,
 				A141B66713EB010100C6AE3F /* Supporting Files */,
 			);
@@ -153,6 +153,35 @@
 				A141B68A13EB015B00C6AE3F /* SBJsonWriter.m */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		A16401E313EDC3C10000D764 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				A141B69513EB185400C6AE3F /* PlacesUITableViewController.h */,
+				A141B69613EB185400C6AE3F /* PlacesUITableViewController.m */,
+				A16401DF13EDB6FD0000D764 /* Place.h */,
+				A16401E013EDB6FE0000D764 /* Place.m */,
+			);
+			name = Places;
+			sourceTree = "<group>";
+		};
+		A16401E413EDC42B0000D764 /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				A141B6A313EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.h */,
+				A141B6A413EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m */,
+			);
+			name = Photos;
+			sourceTree = "<group>";
+		};
+		A16401E513EDC4400000D764 /* Recent */ = {
+			isa = PBXGroup;
+			children = (
+				A16401DB13EC228B0000D764 /* RecentUITableViewController.h */,
+				A16401DC13EC228B0000D764 /* RecentUITableViewController.m */,
+			);
+			name = Recent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,6 +255,7 @@
 				A141B69713EB185400C6AE3F /* PlacesUITableViewController.m in Sources */,
 				A141B6A513EB2F9000C6AE3F /* PhotosAtPlaceUITableViewController.m in Sources */,
 				A16401DD13EC228B0000D764 /* RecentUITableViewController.m in Sources */,
+				A16401E113EDB6FE0000D764 /* Place.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

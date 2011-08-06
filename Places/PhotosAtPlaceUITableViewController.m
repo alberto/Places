@@ -7,7 +7,7 @@
 
 @implementation PhotosAtPlaceUITableViewController
 
-@synthesize place_id, photos;
+@synthesize place, photos;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,7 +26,7 @@
 -(NSArray *) photos {
     if (!photos) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        photos = [FlickrFetcher photosAtPlace:[self place_id]];
+        photos = [FlickrFetcher photosAtPlace:self.place.place_id];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }
     [photos retain];
@@ -38,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = self.place.title;
     self.clearsSelectionOnViewWillAppear = NO;
 }
 
