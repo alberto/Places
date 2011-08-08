@@ -1,14 +1,5 @@
-//
-//  Place.h
-//  Places
-//
-//  Created by moviles on 06/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "FlickrFetcher.h"
-
 
 @interface Place : NSObject {
 }
