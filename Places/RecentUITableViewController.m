@@ -4,15 +4,6 @@
 
 @implementation RecentUITableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (NSArray*) photos
 {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
@@ -32,25 +23,12 @@
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.clearsSelectionOnViewWillAppear = NO;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -67,10 +45,13 @@
 
 #pragma mark - Table view data source
 
+- (PhotoInfo *) photoAtIndex:(NSIndexPath *)indexPath {
+    return [self.photos objectAtIndex:indexPath.row];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    int count = [[self photos] count];
-    return count;
+    return [self.photos count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,15 +62,11 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    PhotoInfo *photo = [[self photos] objectAtIndex:indexPath.row];
+    
+    PhotoInfo *photo = [self photoAtIndex:indexPath];
     cell.textLabel.text = photo.title;
     return cell;
 }
-
-- (PhotoInfo *) photoAtIndex:(NSIndexPath *)indexPath {
-    return [[self photos] objectAtIndex:indexPath.row];
-}
-
 
 #pragma mark - Table view delegate
 
